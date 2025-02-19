@@ -3,14 +3,14 @@ import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/utils/dummy_data.dart';
 
 import '../../config/app_colors.dart';
 
 class OnProgressCardWidget extends StatelessWidget {
   OnProgressCardWidget({super.key});
-  final fakeDateTime = DateFormat('EEEE, dd MMMM yyyy')
-      .format(faker.date.dateTimeBetween(DateTime(2025, 1, 1), DateTime.now()));
-  final fakeImage = "https://picsum.photos/seed/picsum/200/300";
+  final fakeDateTime =
+      DateFormat('EEEE, dd MMMM yyyy').format(DummyData.fakeDateTime);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,8 @@ class OnProgressCardWidget extends StatelessWidget {
                     ),
                     CircleAvatar(
                       radius: 30,
-                      backgroundImage: CachedNetworkImageProvider(fakeImage),
+                      backgroundImage:
+                          CachedNetworkImageProvider(DummyData.fakeImage),
                       backgroundColor: AppColors.green,
                     )
                   ],

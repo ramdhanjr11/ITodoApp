@@ -1,13 +1,12 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/utils/dummy_data.dart';
 
 import '../../config/app_colors.dart';
 
 class CompletedCardWidget extends StatelessWidget {
-  CompletedCardWidget({super.key});
-  final fakeDateTime =
-      faker.date.dateTimeBetween(DateTime(2025, 1, 1), DateTime.now());
+  const CompletedCardWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +87,8 @@ class CompletedCardWidget extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text: DateFormat.EEEE().format(fakeDateTime),
+                          text:
+                              DateFormat.EEEE().format(DummyData.fakeDateTime),
                           style: TextStyle(
                             color: Colors.grey,
                             fontWeight: FontWeight.w600,
@@ -96,7 +96,7 @@ class CompletedCardWidget extends StatelessWidget {
                         ),
                         WidgetSpan(child: SizedBox(width: 8)),
                         TextSpan(
-                          text: DateFormat.jm().format(fakeDateTime),
+                          text: DateFormat.jm().format(DummyData.fakeDateTime),
                           style: TextStyle(color: Colors.grey),
                         ),
                       ],
