@@ -1,0 +1,30 @@
+flavors:
+  sit:
+    app:
+      name: "ITodo SIT"
+      icon: "assets/images/todo_icon.png"
+
+    android:
+      applicationId: "com.muramsyah.itodo.sit"  
+    ios:
+      bundleId: "com.muramsyah.itodo.sit"
+ 
+  uat:
+    app:
+      name: "ITodo UAT"
+      icon: "assets/images/todo_icon.png"
+  
+    android:
+      applicationId: "com.muramsyah.itodo.uat"
+    ios:
+      bundleId: "com.muramsyah.itodo.uat"
+
+  prod:
+    app:
+      name: "ITodo"
+      icon: "assets/images/todo_icon.png"
+  
+    android:
+      applicationId: "com.muramsyah.itodo"
+    ios:
+      bundleId: "com.muramsyah.itodo"
