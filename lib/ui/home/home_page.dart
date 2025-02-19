@@ -285,7 +285,8 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
-  void _showUnderConstructionToast() {
+  void _showUnderConstructionToast() async {
+    await Haptics.vibrate(HapticsType.warning);
     toastification.show(
       context: context,
       title: Text('Under construction!'),
