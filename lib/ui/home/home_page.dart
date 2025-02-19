@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 import 'package:todo/ui/widgets/completed_card_widget.dart';
 import 'package:todo/ui/widgets/menu_title_widget.dart';
 import 'package:todo/ui/widgets/on_progress_card_widget.dart';
@@ -51,7 +52,14 @@ class _HomePageState extends State<HomePage> {
   List<Widget> get _buildActions {
     return [
       IconButton.outlined(
-        onPressed: () {},
+        onPressed: () {
+          toastification.show(
+            context: context,
+            title: Text('Under construction!'),
+            autoCloseDuration: const Duration(seconds: 5),
+            type: ToastificationType.warning,
+          );
+        },
         icon: Icon(Icons.calendar_month),
         style: IconButton.styleFrom(
           side: BorderSide(width: 0.3, color: Colors.grey),
@@ -59,7 +67,14 @@ class _HomePageState extends State<HomePage> {
       ),
       SizedBox(width: 4),
       IconButton.outlined(
-        onPressed: () {},
+        onPressed: () {
+          toastification.show(
+            context: context,
+            title: Text('Under construction!'),
+            autoCloseDuration: const Duration(seconds: 5),
+            type: ToastificationType.warning,
+          );
+        },
         icon: Icon(Icons.notifications)
             .animate(onPlay: (controller) => controller.repeat())
             .shake(curve: Curves.easeInOutCirc),
