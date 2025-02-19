@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
 import 'package:todo/ui/widgets/completed_card_widget.dart';
@@ -54,7 +57,8 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
-        onPressed: () {
+        onPressed: () async {
+          await Haptics.vibrate(HapticsType.soft);
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
@@ -244,6 +248,8 @@ class _HomePageState extends State<HomePage> {
               hintText: hintText,
             ),
             maxLines: maxLines,
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.done,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter some text';
