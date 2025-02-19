@@ -30,11 +30,13 @@ environment:
 dependencies:
   cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
+  faker: ^2.2.0
   flutter:
     sdk: flutter
   flutter_animate: ^4.5.2
   flutter_bloc: ^9.0.0
   get_it: ^8.0.3
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_flavorizr: ^2.2.3

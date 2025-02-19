@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/config/app_route.dart';
 import 'package:todo/ui/splash/cubit/splash_cubit.dart';
@@ -21,7 +22,7 @@ class SplashPage extends StatelessWidget {
             width: 200,
             height: 200,
             fit: BoxFit.cover,
-          ),
+          ).animate().moveX(),
         ),
       ),
     );

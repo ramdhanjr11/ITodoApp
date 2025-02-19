@@ -43,14 +43,14 @@ class App extends StatelessWidget {
           pageBuilder: (context, animation, secondaryAnimation) {
             return FadeTransition(opacity: animation, child: SplashPage());
           },
-          transitionDuration: Duration(seconds: 1),
+          transitionDuration: Duration(seconds: 2),
         );
       case AppRoute.home:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
             return FadeTransition(opacity: animation, child: HomePage());
           },
-          transitionDuration: Duration(seconds: 1),
+          transitionDuration: Duration(seconds: 2),
         );
       default:
         return MaterialPageRoute(builder: (_) => SplashPage());
