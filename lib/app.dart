@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/config/app_colors.dart';
 import 'package:todo/config/app_route.dart';
+import 'package:todo/ui/detail/detail_page.dart';
 import 'package:todo/ui/splash/splash_page.dart';
 
 import 'flavors.dart';
@@ -51,6 +52,20 @@ class App extends StatelessWidget {
             return FadeTransition(opacity: animation, child: HomePage());
           },
           transitionDuration: Duration(seconds: 2),
+        );
+      case AppRoute.detail:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            const begin = Offset(0.0, 1.0);
+            const end = Offset.zero;
+            final tween = Tween(begin: begin, end: end);
+            final type = (settings.arguments as Map<String, dynamic>)['type'];
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: DetailPage(type: type),
+            );
+          },
+          transitionDuration: Duration(milliseconds: 300),
         );
       default:
         return MaterialPageRoute(builder: (_) => SplashPage());

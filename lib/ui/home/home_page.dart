@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
-import 'package:todo/ui/widgets/completed_card_widget.dart';
+import 'package:todo/config/app_route.dart';
+import 'package:todo/ui/widgets/task_card_widget.dart';
 import 'package:todo/ui/widgets/menu_title_widget.dart';
 import 'package:todo/ui/widgets/on_progress_card_widget.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../config/app_colors.dart';
+import '../detail/detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,17 +39,31 @@ class _HomePageState extends State<HomePage> {
               floating: true,
               actions: _buildActions,
             ),
-            SliverToBoxAdapter(child: MenuTitleWidget(title: "On Progress")),
+            SliverToBoxAdapter(
+              child: MenuTitleWidget(
+                title: "On Progress",
+                onViewMoreTapped: () {
+                  Navigator.pushNamed(context, AppRoute.detail, arguments: {
+                    "type": DetailPageType.onprogress,
+                  });
+                },
+              ),
+            ),
             SliverToBoxAdapter(child: _buildHorizontalOnProgressCard()),
             SliverToBoxAdapter(
               child: MenuTitleWidget(
                 title: "Completed",
                 padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                onViewMoreTapped: () {
+                  Navigator.pushNamed(context, AppRoute.detail, arguments: {
+                    "type": DetailPageType.completed,
+                  });
+                },
               ),
             ),
             SliverList.builder(
               itemBuilder: (context, index) {
-                return CompletedCardWidget().animate().slideX();
+                return TaskCardWidget(isCompleted: true).animate().slideX();
               },
               itemCount: 10,
             ),

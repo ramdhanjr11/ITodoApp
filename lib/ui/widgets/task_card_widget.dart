@@ -5,8 +5,9 @@ import 'package:todo/utils/dummy_data.dart';
 
 import '../../config/app_colors.dart';
 
-class CompletedCardWidget extends StatelessWidget {
-  const CompletedCardWidget({super.key});
+class TaskCardWidget extends StatelessWidget {
+  const TaskCardWidget({super.key, required this.isCompleted});
+  final bool isCompleted;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,9 @@ class CompletedCardWidget extends StatelessWidget {
                                     .textTheme
                                     .titleMedium
                                     ?.copyWith(
-                                      decoration: TextDecoration.lineThrough,
+                                      decoration: isCompleted
+                                          ? TextDecoration.lineThrough
+                                          : null,
                                     ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -71,10 +74,10 @@ class CompletedCardWidget extends StatelessWidget {
                           padding: EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.blue,
+                            color: isCompleted ? Colors.blue : AppColors.pink,
                           ),
                           child: Icon(
-                            Icons.done,
+                            isCompleted ? Icons.done : Icons.schedule,
                             color: Colors.white,
                             size: 15,
                           ),
