@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -6,6 +8,16 @@ class AppColors {
   static const Color green = Color(0xff8ED29F);
   static const Color pink = Color(0xffF0C4CE);
   static const Color purple = Color(0xffA4ABFF);
+
+  static ColorEnum getRandomColor = ColorEnum.values[Random().nextInt(3)];
 }
 
-enum ColorEnum { yellow, green, pink, purple }
+enum ColorEnum {
+  yellow(value: AppColors.yellow),
+  green(value: AppColors.green),
+  pink(value: AppColors.pink),
+  purple(value: AppColors.purple);
+
+  const ColorEnum({required this.value});
+  final Color value;
+}

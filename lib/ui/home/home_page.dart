@@ -9,7 +9,7 @@ import 'package:toastification/toastification.dart';
 import 'package:todo/config/app_route.dart';
 import 'package:todo/ui/widgets/task_card_widget.dart';
 import 'package:todo/ui/widgets/menu_title_widget.dart';
-import 'package:todo/ui/widgets/on_progress_card_widget.dart';
+import 'package:todo/ui/widgets/onprogress_card_widget.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../config/app_colors.dart';

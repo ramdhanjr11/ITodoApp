@@ -6,7 +6,7 @@ import 'package:todo/config/app_route.dart';
 import 'package:todo/ui/detail/detail_page.dart';
 import 'package:todo/ui/splash/splash_page.dart';
 
-import 'flavors.dart';
+import 'config/flavors.dart';
 import 'ui/home/home_page.dart';
 import 'ui/splash/cubit/splash_cubit.dart';
 
