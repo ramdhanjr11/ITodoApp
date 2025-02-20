@@ -40,38 +40,7 @@ class OnProgressCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  todo.title,
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Text(
-                                todo.dateCreated,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ],
-                          ),
-                        ),
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundImage:
-                              CachedNetworkImageProvider(DummyData.fakeImage),
-                          backgroundColor: AppColors.green,
-                        )
-                      ],
-                    ),
-                  ),
+                  _buildTitleAndDateCreated(context),
                   Divider(height: 42),
                   Text(
                     "Description: ",
@@ -88,59 +57,95 @@ class OnProgressCardWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "User :",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(color: Colors.grey),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            faker.person.name(),
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                      Container(
-                        padding: EdgeInsetsDirectional.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          "On Progress",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(color: Colors.white),
-                        ),
-                      )
-                          .animate(
-                              onPlay: (controller) =>
-                                  controller.repeat(reverse: true))
-                          .fadeOut(duration: Duration(seconds: 2))
-                    ],
-                  ),
+                  _buildUserTitleAndOnProgressInfo(context),
                   SizedBox(height: 12)
                 ],
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Row _buildUserTitleAndOnProgressInfo(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "User :",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: Colors.grey),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              faker.person.name(),
+              style: Theme.of(context).textTheme.bodyMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+        Container(
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: 12,
+            vertical: 8,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Text(
+            "On Progress",
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall
+                ?.copyWith(color: Colors.white),
+          ),
+        )
+            .animate(onPlay: (controller) => controller.repeat(reverse: true))
+            .fadeOut(duration: Duration(seconds: 2))
+      ],
+    );
+  }
+
+  Expanded _buildTitleAndDateCreated(BuildContext context) {
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Text(
+                    todo.title,
+                    style: Theme.of(context).textTheme.titleLarge,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Text(
+                  todo.dateCreated,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ),
+          ),
+          CircleAvatar(
+            radius: 30,
+            backgroundImage: CachedNetworkImageProvider(DummyData.fakeImage),
+            backgroundColor: AppColors.green,
+          )
+        ],
       ),
     );
   }

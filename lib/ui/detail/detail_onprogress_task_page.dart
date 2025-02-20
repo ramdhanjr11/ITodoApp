@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:toastification/toastification.dart';
+import 'package:todo/domain/models/todo.dart';
 import 'package:todo/ui/bloc/todo_bloc.dart';
 import 'package:todo/ui/widgets/detail_skeleton_widget.dart';
 import 'package:todo/ui/widgets/task_card_widget.dart';
@@ -68,64 +69,7 @@ class _DetailOnprogressTaskPageState extends State<DetailOnprogressTaskPage> {
                       itemBuilder: (context, index) {
                         final todo = state.onProgressTodos?[index];
 
-                        return Dismissible(
-                          key: UniqueKey(),
-                          onDismissed: (direction) {
-                            if (direction == DismissDirection.startToEnd) {
-                              context
-                                  .read<TodoBloc>()
-                                  .add(DeleteTodo(todo!.id));
-                            }
-
-                            if (direction == DismissDirection.endToStart) {
-                              final updatedTodo =
-                                  todo!.copyWith(completed: true);
-                              context
-                                  .read<TodoBloc>()
-                                  .add(UpdateCompleted(updatedTodo));
-                            }
-                          },
-                          background: Container(
-                            alignment: Alignment.centerLeft,
-                            color: AppColors.pink,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          secondaryBackground: Container(
-                            alignment: Alignment.centerRight,
-                            color: AppColors.green,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: Icon(
-                                Icons.done,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          child: TaskCardWidget(
-                            isCompleted: false,
-                            color: AppColors.pink,
-                            todo: todo,
-                            onTap: (todo) {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                enableDrag: true,
-                                builder: (context) => TodoForm(
-                                  todoFormType: TodoFormType.update,
-                                  todo: todo,
-                                ),
-                              );
-                            },
-                          ),
-                        );
+                        return _buildOnProgressTaskCard(todo);
                       },
                       itemCount: state.onProgressTodos?.length,
                     )
@@ -134,6 +78,60 @@ class _DetailOnprogressTaskPageState extends State<DetailOnprogressTaskPage> {
             };
           },
         ),
+      ),
+    );
+  }
+
+  Dismissible _buildOnProgressTaskCard(Todo? todo) {
+    return Dismissible(
+      key: UniqueKey(),
+      onDismissed: (direction) {
+        if (direction == DismissDirection.startToEnd) {
+          context.read<TodoBloc>().add(DeleteTodo(todo!.id));
+        }
+
+        if (direction == DismissDirection.endToStart) {
+          final updatedTodo = todo!.copyWith(completed: true);
+          context.read<TodoBloc>().add(UpdateCompleted(updatedTodo));
+        }
+      },
+      background: Container(
+        alignment: Alignment.centerLeft,
+        color: AppColors.pink,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      secondaryBackground: Container(
+        alignment: Alignment.centerRight,
+        color: AppColors.green,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Icon(
+            Icons.done,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      child: TaskCardWidget(
+        isCompleted: false,
+        color: AppColors.pink,
+        todo: todo,
+        onTap: (todo) {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            enableDrag: true,
+            builder: (context) => TodoForm(
+              todoFormType: TodoFormType.update,
+              todo: todo,
+            ),
+          );
+        },
       ),
     );
   }

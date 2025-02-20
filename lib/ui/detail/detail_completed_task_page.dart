@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:toastification/toastification.dart';
 import 'package:todo/config/app_colors.dart';
+import 'package:todo/domain/models/todo.dart';
 import 'package:todo/ui/widgets/detail_skeleton_widget.dart';
 import 'package:todo/utils/dialog_utils.dart';
 import 'package:todo/utils/toast_utils.dart';
@@ -56,27 +57,7 @@ class _DetailCompletedTaskPageState extends State<DetailCompletedTaskPage> {
                     SliverList.builder(
                       itemBuilder: (context, index) {
                         final todo = state.completedTodos?[index];
-
-                        return Dismissible(
-                          key: UniqueKey(),
-                          onDismissed: (direction) {
-                            context.read<TodoBloc>().add(DeleteTodo(todo!.id));
-                          },
-                          direction: DismissDirection.startToEnd,
-                          background: Container(
-                            alignment: Alignment.centerLeft,
-                            color: AppColors.pink,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          child: TaskCardWidget(isCompleted: true, todo: todo),
-                        );
+                        return _buildCompletedTaskCard(todo);
                       },
                       itemCount: state.completedTodos?.length,
                     )
@@ -86,6 +67,28 @@ class _DetailCompletedTaskPageState extends State<DetailCompletedTaskPage> {
           },
         ),
       ),
+    );
+  }
+
+  Dismissible _buildCompletedTaskCard(Todo? todo) {
+    return Dismissible(
+      key: UniqueKey(),
+      onDismissed: (direction) {
+        context.read<TodoBloc>().add(DeleteTodo(todo!.id));
+      },
+      direction: DismissDirection.startToEnd,
+      background: Container(
+        alignment: Alignment.centerLeft,
+        color: AppColors.pink,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      child: TaskCardWidget(isCompleted: true, todo: todo),
     );
   }
 }
