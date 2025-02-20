@@ -50,7 +50,10 @@ class _DetailOnprogressTaskPageState extends State<DetailOnprogressTaskPage> {
                       ),
                     ),
                   ),
-                  child: TaskCardWidget(isCompleted: false),
+                  child: TaskCardWidget(
+                    isCompleted: false,
+                    color: AppColors.pink,
+                  ),
                 );
               },
               itemCount: 20,

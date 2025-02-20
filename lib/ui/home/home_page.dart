@@ -6,6 +6,7 @@ import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toastification/toastification.dart';
 import 'package:todo/config/app_route.dart';
+import 'package:todo/domain/models/todo.dart';
 import 'package:todo/ui/todo_form/todo_create_form.dart';
 import 'package:todo/ui/widgets/task_card_widget.dart';
 import 'package:todo/ui/widgets/menu_title_widget.dart';
@@ -47,8 +48,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SliverToBoxAdapter(
                   child: state.status == HomeStatus.loading
-                      ? Skeletonizer(child: _buildHorizontalOnProgressCard())
-                      : _buildHorizontalOnProgressCard(),
+                      ? _buildOnProgressCardSkeleton()
+                      : state.status == HomeStatus.success
+                          ? _buildOnProgressCard(state.onProgressTodos!)
+                          : _buildOnProgressCardSkeleton(),
                 ),
                 SliverToBoxAdapter(
                   child: state.status == HomeStatus.loading
@@ -56,23 +59,10 @@ class _HomePageState extends State<HomePage> {
                       : _buildCompletedTitle(),
                 ),
                 state.status == HomeStatus.loading
-                    ? Skeletonizer.sliver(
-                        child: SliverList.builder(
-                        itemBuilder: (context, index) {
-                          return TaskCardWidget(isCompleted: true)
-                              .animate()
-                              .slideX();
-                        },
-                        itemCount: 10,
-                      ))
-                    : SliverList.builder(
-                        itemBuilder: (context, index) {
-                          return TaskCardWidget(isCompleted: true)
-                              .animate()
-                              .slideX();
-                        },
-                        itemCount: 10,
-                      ),
+                    ? _buildCompletedCardSkeleton()
+                    : state.status == HomeStatus.success
+                        ? _buildCompletedCard(state.completedTodos!)
+                        : _buildCompletedCardSkeleton(),
               ],
             );
           },
@@ -94,6 +84,26 @@ class _HomePageState extends State<HomePage> {
         icon: Icon(Icons.add),
       ).animate().scale(),
     );
+  }
+
+  SliverList _buildCompletedCard(List<Todo> todos) {
+    return SliverList.builder(
+      itemBuilder: (context, index) {
+        final todo = todos[index];
+        return TaskCardWidget(isCompleted: true, todo: todo).animate().slideX();
+      },
+      itemCount: todos.length,
+    );
+  }
+
+  Skeletonizer _buildCompletedCardSkeleton() {
+    return Skeletonizer.sliver(
+        child: SliverList.builder(
+      itemBuilder: (context, index) {
+        return TaskCardWidget(isCompleted: true).animate().slideX();
+      },
+      itemCount: 10,
+    ));
   }
 
   MenuTitleWidget _buildCompletedTitle() {
@@ -152,18 +162,36 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildHorizontalOnProgressCard() {
+  Widget _buildOnProgressCardSkeleton() {
+    return Skeletonizer(
+      child: SizedBox(
+        height: 280,
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return OnProgressCardWidget(todo: Todo.dummy()).animate().shake();
+          },
+          itemCount: 5,
+          scrollDirection: Axis.horizontal,
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: 12),
+        ),
+      ).animate().slideX(),
+    );
+  }
+
+  Widget _buildOnProgressCard(List<Todo> todos) {
     return SizedBox(
       height: 280,
       child: ListView.builder(
         itemBuilder: (context, index) {
-          return OnProgressCardWidget().animate().shake();
+          final todo = todos[index];
+          return OnProgressCardWidget(todo: todo);
         },
-        itemCount: 5,
+        itemCount: todos.length,
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 12),
       ),
-    ).animate().slideX();
+    );
   }
 }

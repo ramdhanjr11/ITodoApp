@@ -2,15 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:intl/intl.dart';
+import 'package:todo/domain/models/todo.dart';
 import 'package:todo/utils/dummy_data.dart';
 
 import '../../config/app_colors.dart';
 
 class OnProgressCardWidget extends StatelessWidget {
-  OnProgressCardWidget({super.key});
-  final fakeDateTime =
-      DateFormat('EEEE, dd MMMM yyyy').format(DummyData.fakeDateTime);
+  const OnProgressCardWidget({super.key, required this.todo});
+  final Todo todo;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class OnProgressCardWidget extends StatelessWidget {
         children: [
           Container(
             height: 8,
-            color: AppColors.yellow,
+            color: AppColors.pink,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -38,33 +37,41 @@ class OnProgressCardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Design UI Todo App",
-                          style: Theme.of(context).textTheme.titleLarge,
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                todo.title,
+                                style: Theme.of(context).textTheme.titleLarge,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Text(
+                              todo.dateCreated,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
                         ),
-                        Text(
-                          fakeDateTime,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundImage:
-                          CachedNetworkImageProvider(DummyData.fakeImage),
-                      backgroundColor: AppColors.green,
-                    )
-                  ],
+                      ),
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundImage:
+                            CachedNetworkImageProvider(DummyData.fakeImage),
+                        backgroundColor: AppColors.green,
+                      )
+                    ],
+                  ),
                 ),
                 Divider(height: 42),
                 Text(
-                  "Description :",
+                  "Description: ",
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium
@@ -72,7 +79,7 @@ class OnProgressCardWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  faker.lorem.sentence(),
+                  todo.description,
                   style: Theme.of(context).textTheme.bodyMedium,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -91,6 +98,8 @@ class OnProgressCardWidget extends StatelessWidget {
                               .textTheme
                               .titleMedium
                               ?.copyWith(color: Colors.grey),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         Text(
                           faker.person.name(),

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/domain/models/todo.dart';
 
-import '../../../data/models/todo_model.dart';
 import '../../../domain/use_cases/todo_use_case.dart';
 
 part 'home_event.dart';

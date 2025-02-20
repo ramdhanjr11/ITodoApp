@@ -1,13 +1,17 @@
-import 'package:faker/faker.dart';
+import 'package:faker/faker.dart' as fake;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/utils/dummy_data.dart';
 
 import '../../config/app_colors.dart';
+import '../../domain/models/todo.dart';
 
 class TaskCardWidget extends StatelessWidget {
-  const TaskCardWidget({super.key, required this.isCompleted});
+  const TaskCardWidget(
+      {super.key, required this.isCompleted, this.color, this.todo});
+  final Todo? todo;
   final bool isCompleted;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class TaskCardWidget extends StatelessWidget {
         children: [
           Container(
             width: 12,
-            color: AppColors.pink,
+            color: AppColors.green,
           ),
           Expanded(
             child: Padding(
@@ -44,7 +48,7 @@ class TaskCardWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                faker.lorem.sentence(),
+                                todo?.title ?? fake.faker.lorem.sentence(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleMedium
@@ -58,7 +62,8 @@ class TaskCardWidget extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                faker.lorem.sentence(),
+                                todo?.description ??
+                                    fake.faker.lorem.sentence(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium
@@ -90,7 +95,7 @@ class TaskCardWidget extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text:
+                          text: todo?.dateCreated ??
                               DateFormat.EEEE().format(DummyData.fakeDateTime),
                           style: TextStyle(
                             color: Colors.grey,

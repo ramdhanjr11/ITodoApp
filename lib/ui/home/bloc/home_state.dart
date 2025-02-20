@@ -11,8 +11,8 @@ class HomeState extends Equatable {
   );
 
   final HomeStatus status;
-  final List<TodoModel>? onProgressTodos;
-  final List<TodoModel>? completedTodos;
+  final List<Todo>? onProgressTodos;
+  final List<Todo>? completedTodos;
   final String? error;
 
   factory HomeState.initial() => HomeState(
@@ -24,8 +24,8 @@ class HomeState extends Equatable {
 
   HomeState copyWith({
     HomeStatus? status,
-    List<TodoModel>? onProgressTodos,
-    List<TodoModel>? completedTodos,
+    List<Todo>? onProgressTodos,
+    List<Todo>? completedTodos,
     String? error,
   }) {
     return HomeState(
