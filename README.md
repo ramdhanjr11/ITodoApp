@@ -39,7 +39,7 @@ This project has been built by `Flutter` and `MVVM` pattern. [click here for ref
 
 ## Installation
 
-To install this project to your local device, please clone `https://gitlab.aqi.co.id/aqi-jogja/kodomo-mimamori/kodomo-mimamori-ios` in your text editor.
+To install this project to your local device, please clone `https://github.com/ramdhanjr11/ITodoApp.git` in your text editor.
 
 ```
   git clone  
