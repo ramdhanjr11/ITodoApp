@@ -18,8 +18,8 @@ class ApiService {
       return List<TodoModel>.from(
         response.data.map((x) => TodoModel.fromJson(x)),
       );
-    } on DioException catch (e) {
-      throw Exception(e.message);
+    } on DioException {
+      rethrow;
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -29,8 +29,8 @@ class ApiService {
     try {
       final response = await _dio.post('todos', data: todo.toJson());
       return TodoModel.fromJson(response.data);
-    } on DioException catch (e) {
-      throw Exception(e.message);
+    } on DioException {
+      rethrow;
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -40,8 +40,8 @@ class ApiService {
     try {
       final response = await _dio.put('todos/${todo.id}', data: todo.toJson());
       return TodoModel.fromJson(response.data);
-    } on DioException catch (e) {
-      throw Exception(e.message);
+    } on DioException {
+      rethrow;
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -50,8 +50,8 @@ class ApiService {
   Future<void> deleteTodo(int id) async {
     try {
       await _dio.delete('todos/$id');
-    } on DioException catch (e) {
-      throw Exception(e.message);
+    } on DioException {
+      rethrow;
     } catch (e) {
       throw Exception(e.toString());
     }

@@ -26,7 +26,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     result.fold(
       (error) {
-        emit(state.copyWith(status: Status.error, error: error.toString()));
+        emit(state.copyWith(status: Status.error, error: error.message));
       },
       (data) {
         emit(
@@ -49,8 +49,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     result.fold(
       (error) {
-        emit(state.copyWith(
-            status: Status.updateError, error: error.toString()));
+        emit(state.copyWith(status: Status.updateError, error: error.message));
       },
       (data) {
         emit(state.copyWith(status: Status.updateSuccess));
@@ -66,7 +65,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     result.fold(
       (error) {
         emit(state.copyWith(
-            status: Status.updateIsCompletedError, error: error.toString()));
+            status: Status.updateIsCompletedError, error: error.message));
       },
       (data) {
         emit(state.copyWith(status: Status.updateIsCompletedSuccess));
@@ -81,8 +80,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     result.fold(
       (error) {
-        emit(state.copyWith(
-            status: Status.createError, error: error.toString()));
+        emit(state.copyWith(status: Status.createError, error: error.message));
       },
       (data) {
         emit(state.copyWith(status: Status.createSucces));
@@ -97,8 +95,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     result.fold(
       (error) {
-        emit(state.copyWith(
-            status: Status.deleteError, error: error.toString()));
+        emit(state.copyWith(status: Status.deleteError, error: error.message));
       },
       (data) {
         emit(state.copyWith(status: Status.deleteSuccess));
