@@ -5,7 +5,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:todo/data/repositories/todo_repository.dart';
 import 'package:todo/data/services/api_service.dart';
 import 'package:todo/domain/use_cases/todo_use_case.dart';
-import 'package:todo/ui/home/bloc/home_bloc.dart';
+import 'package:todo/ui/bloc/todo_bloc.dart';
 
 final di = GetIt.instance;
 
@@ -15,7 +15,7 @@ void setup() {
     ..registerSingleton(ApiService(dio: di()))
     ..registerSingleton<TodoRepository>(TodoRepositoryImpl(di()))
     ..registerSingleton(TodoUseCase(di()))
-    ..registerSingleton(HomeBloc(di()));
+    ..registerSingleton(TodoBloc(di()));
 }
 
 Dio _configureDio() {

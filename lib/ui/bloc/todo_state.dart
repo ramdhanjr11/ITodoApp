@@ -1,34 +1,45 @@
-part of 'home_bloc.dart';
+part of 'todo_bloc.dart';
 
-enum HomeStatus { initial, loading, success, error }
+enum Status {
+  initial,
+  loading,
+  success,
+  error,
+  loadingCreate,
+  loadingUpdate,
+  loadingDelete,
+  createSucces,
+  updateSuccess,
+  deleteSuccess
+}
 
-class HomeState extends Equatable {
-  const HomeState(
+class TodoState extends Equatable {
+  const TodoState(
     this.status,
     this.onProgressTodos,
     this.completedTodos,
     this.error,
   );
 
-  final HomeStatus status;
+  final Status status;
   final List<Todo>? onProgressTodos;
   final List<Todo>? completedTodos;
   final String? error;
 
-  factory HomeState.initial() => HomeState(
-        HomeStatus.initial,
+  factory TodoState.initial() => TodoState(
+        Status.initial,
         null,
         null,
         null,
       );
 
-  HomeState copyWith({
-    HomeStatus? status,
+  TodoState copyWith({
+    Status? status,
     List<Todo>? onProgressTodos,
     List<Todo>? completedTodos,
     String? error,
   }) {
-    return HomeState(
+    return TodoState(
       status ?? this.status,
       onProgressTodos ?? this.onProgressTodos,
       completedTodos ?? this.completedTodos,

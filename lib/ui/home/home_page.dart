@@ -8,13 +8,14 @@ import 'package:toastification/toastification.dart';
 import 'package:todo/config/app_route.dart';
 import 'package:todo/domain/models/todo.dart';
 import 'package:todo/ui/todo_form/todo_create_form.dart';
+import 'package:todo/ui/widgets/home_skeleton_widget.dart';
 import 'package:todo/ui/widgets/task_card_widget.dart';
 import 'package:todo/ui/widgets/menu_title_widget.dart';
 import 'package:todo/ui/widgets/onprogress_card_widget.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../detail/detail_page.dart';
-import 'bloc/home_bloc.dart';
+import '../bloc/todo_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,42 +30,29 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: RefreshIndicator.adaptive(
         onRefresh: () {
-          context.read<HomeBloc>().add(GetTodoList());
+          context.read<TodoBloc>().add(GetTodoList());
           return Future.delayed(Duration(seconds: 1));
         },
-        child: BlocBuilder<HomeBloc, HomeState>(
+        child: BlocBuilder<TodoBloc, TodoState>(
           builder: (context, state) {
-            return CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  title: Text("Todo app"),
-                  floating: true,
-                  actions: _buildActions,
-                ),
-                SliverToBoxAdapter(
-                  child: state.status == HomeStatus.loading
-                      ? Skeletonizer(child: _buildOnProgressTitle())
-                      : _buildOnProgressTitle(),
-                ),
-                SliverToBoxAdapter(
-                  child: state.status == HomeStatus.loading
-                      ? _buildOnProgressCardSkeleton()
-                      : state.status == HomeStatus.success
-                          ? _buildOnProgressCard(state.onProgressTodos!)
-                          : _buildOnProgressCardSkeleton(),
-                ),
-                SliverToBoxAdapter(
-                  child: state.status == HomeStatus.loading
-                      ? Skeletonizer(child: _buildCompletedTitle())
-                      : _buildCompletedTitle(),
-                ),
-                state.status == HomeStatus.loading
-                    ? _buildCompletedCardSkeleton()
-                    : state.status == HomeStatus.success
-                        ? _buildCompletedCard(state.completedTodos!)
-                        : _buildCompletedCardSkeleton(),
-              ],
-            );
+            return switch (state.status) {
+              Status.loading || Status.error => HomeSkeletonWidget(),
+              _ => CustomScrollView(
+                  slivers: [
+                    SliverAppBar(
+                      title: Text("Todo app"),
+                      floating: true,
+                      actions: _buildActions,
+                    ),
+                    SliverToBoxAdapter(child: _buildOnProgressTitle()),
+                    SliverToBoxAdapter(
+                      child: _buildOnProgressCard(state.onProgressTodos!),
+                    ),
+                    SliverToBoxAdapter(child: _buildCompletedTitle()),
+                    _buildCompletedCard(state.completedTodos!),
+                  ],
+                )
+            };
           },
         ),
       ),
@@ -94,16 +82,6 @@ class _HomePageState extends State<HomePage> {
       },
       itemCount: todos.length,
     );
-  }
-
-  Skeletonizer _buildCompletedCardSkeleton() {
-    return Skeletonizer.sliver(
-        child: SliverList.builder(
-      itemBuilder: (context, index) {
-        return TaskCardWidget(isCompleted: true).animate().slideX();
-      },
-      itemCount: 10,
-    ));
   }
 
   MenuTitleWidget _buildCompletedTitle() {
@@ -159,23 +137,6 @@ class _HomePageState extends State<HomePage> {
       title: Text('Under construction!'),
       autoCloseDuration: const Duration(seconds: 2),
       type: ToastificationType.warning,
-    );
-  }
-
-  Widget _buildOnProgressCardSkeleton() {
-    return Skeletonizer(
-      child: SizedBox(
-        height: 280,
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            return OnProgressCardWidget(todo: Todo.dummy()).animate().shake();
-          },
-          itemCount: 5,
-          scrollDirection: Axis.horizontal,
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 12),
-        ),
-      ).animate().slideX(),
     );
   }
 

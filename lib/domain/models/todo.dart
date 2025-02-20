@@ -23,6 +23,19 @@ class Todo extends Equatable {
         dateCreated = DateFormat('EEEE, dd MMMM yyyy').format(
             faker.date.dateTimeBetween(DateTime(2025, 1, 1), DateTime.now()));
 
+  Todo copyWith({
+    int? userId,
+    int? id,
+    String? title,
+    bool? completed,
+  }) =>
+      Todo(
+        userId: userId ?? this.userId,
+        id: id ?? this.id,
+        title: title ?? this.title,
+        completed: completed ?? this.completed,
+      );
+
   @override
   List<Object?> get props => [
         userId,

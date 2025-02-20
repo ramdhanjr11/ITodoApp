@@ -5,7 +5,7 @@ import 'package:todo/config/app_colors.dart';
 import 'package:todo/config/app_di.dart';
 import 'package:todo/config/app_route.dart';
 import 'package:todo/ui/detail/detail_page.dart';
-import 'package:todo/ui/home/bloc/home_bloc.dart';
+import 'package:todo/ui/bloc/todo_bloc.dart';
 import 'package:todo/ui/splash/splash_page.dart';
 
 import 'config/flavors.dart';
@@ -20,7 +20,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => SplashCubit()..countDown()),
-        BlocProvider(create: (_) => di<HomeBloc>()..add(GetTodoList())),
+        BlocProvider(create: (_) => di<TodoBloc>()..add(GetTodoList())),
       ],
       child: MaterialApp(
         title: F.title,
@@ -51,14 +51,14 @@ class App extends StatelessWidget {
           pageBuilder: (context, animation, secondaryAnimation) {
             return FadeTransition(opacity: animation, child: SplashPage());
           },
-          transitionDuration: Duration(seconds: 2),
+          transitionDuration: Duration(seconds: 1),
         );
       case AppRoute.home:
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
             return FadeTransition(opacity: animation, child: HomePage());
           },
-          transitionDuration: Duration(seconds: 2),
+          transitionDuration: Duration(seconds: 1),
         );
       case AppRoute.detail:
         return PageRouteBuilder(

@@ -7,8 +7,12 @@ import '../../config/app_colors.dart';
 import '../../domain/models/todo.dart';
 
 class TaskCardWidget extends StatelessWidget {
-  const TaskCardWidget(
-      {super.key, required this.isCompleted, this.color, this.todo});
+  const TaskCardWidget({
+    super.key,
+    required this.isCompleted,
+    this.color,
+    this.todo,
+  });
   final Todo? todo;
   final bool isCompleted;
   final Color? color;
@@ -27,7 +31,7 @@ class TaskCardWidget extends StatelessWidget {
         children: [
           Container(
             width: 12,
-            color: AppColors.green,
+            color: color ?? AppColors.green,
           ),
           Expanded(
             child: Padding(
