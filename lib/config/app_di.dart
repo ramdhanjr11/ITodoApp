@@ -9,13 +9,14 @@ import 'package:todo/domain/use_cases/todo_use_case.dart';
 final di = GetIt.instance;
 
 void setup() {
-  di.registerSingleton(configureDio());
-  di.registerSingleton(ApiService(dio: di()));
-  di.registerSingleton<TodoRepository>(TodoRepositoryImpl(di()));
-  di.registerSingleton(TodoUseCase(di()));
+  di
+    ..registerSingleton(_configureDio())
+    ..registerSingleton(ApiService(dio: di()))
+    ..registerSingleton<TodoRepository>(TodoRepositoryImpl(di()))
+    ..registerSingleton(TodoUseCase(di()));
 }
 
-Dio configureDio() {
+Dio _configureDio() {
   final options = BaseOptions(
     baseUrl: 'https://jsonplaceholder.typicode.com/',
     connectTimeout: Duration(seconds: 5),
