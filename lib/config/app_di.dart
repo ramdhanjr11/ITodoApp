@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -26,6 +29,14 @@ Dio _configureDio() {
   );
   final dio = Dio(options);
   dio.interceptors.add(PrettyDioLogger(enabled: kDebugMode));
+  dio.httpClientAdapter = IOHttpClientAdapter(
+    createHttpClient: () {
+      final HttpClient client =
+          HttpClient(context: SecurityContext(withTrustedRoots: false));
+      client.badCertificateCallback = (cert, host, port) => true;
+      return client;
+    },
+  );
 
   return dio;
 }
