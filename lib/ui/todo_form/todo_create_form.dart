@@ -10,6 +10,7 @@ import 'package:todo/ui/todo_form/widgets/todo_datetime_field_widget.dart';
 import 'package:todo/ui/todo_form/widgets/todo_elevated_button_widget.dart';
 import 'package:todo/ui/todo_form/widgets/todo_form_textfield_widget.dart';
 import 'package:todo/ui/todo_form/widgets/todo_outlined_button_widget.dart';
+import 'package:todo/utils/toast_utils.dart';
 
 import '../../config/app_colors.dart';
 import '../bloc/todo_bloc.dart';
@@ -33,11 +34,11 @@ class _TodoCreateFormState extends State<TodoCreateForm> {
       listener: (context, state) async {
         if (state.status == Status.createSucces) {
           Navigator.pop(context);
-          await Haptics.vibrate(HapticsType.success);
-          toastification.show(
-            context: context,
-            title: Text("Success to create new todo task!"),
-            type: ToastificationType.success,
+          showToastification(
+            context,
+            ToastificationType.success,
+            HapticsType.success,
+            "Success to create new todo task!",
           );
         }
 

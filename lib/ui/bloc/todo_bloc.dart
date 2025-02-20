@@ -22,6 +22,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     emit(state.copyWith(status: Status.loading));
 
     final result = await _todoUseCase.getTodoList();
+
     result.fold(
       (error) {
         emit(state.copyWith(status: Status.error, error: error.toString()));

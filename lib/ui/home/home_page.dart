@@ -3,11 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toastification/toastification.dart';
 import 'package:todo/config/app_route.dart';
 import 'package:todo/domain/models/todo.dart';
-import 'package:todo/ui/todo_form/todo_create_form.dart';
+import 'package:todo/ui/todo_form/todo_form.dart';
 import 'package:todo/ui/widgets/home_skeleton_widget.dart';
 import 'package:todo/ui/widgets/task_card_widget.dart';
 import 'package:todo/ui/widgets/menu_title_widget.dart';
@@ -36,7 +35,10 @@ class _HomePageState extends State<HomePage> {
         child: BlocBuilder<TodoBloc, TodoState>(
           builder: (context, state) {
             return switch (state.status) {
-              Status.loading || Status.error => HomeSkeletonWidget(),
+              Status.initial ||
+              Status.loading ||
+              Status.error =>
+                HomeSkeletonWidget(),
               _ => CustomScrollView(
                   slivers: [
                     SliverAppBar(
@@ -65,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             context: context,
             isScrollControlled: true,
             enableDrag: true,
-            builder: (context) => TodoCreateForm(),
+            builder: (context) => TodoForm(todoFormType: TodoFormType.create),
           );
         },
         label: Text("Create New"),
@@ -146,7 +148,20 @@ class _HomePageState extends State<HomePage> {
       child: ListView.builder(
         itemBuilder: (context, index) {
           final todo = todos[index];
-          return OnProgressCardWidget(todo: todo);
+          return OnProgressCardWidget(
+            todo: todo,
+            onTap: (todo) {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                enableDrag: true,
+                builder: (context) => TodoForm(
+                  todoFormType: TodoFormType.update,
+                  todo: todo,
+                ),
+              );
+            },
+          );
         },
         itemCount: todos.length,
         scrollDirection: Axis.horizontal,
