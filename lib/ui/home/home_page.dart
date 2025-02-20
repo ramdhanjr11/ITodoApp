@@ -12,6 +12,7 @@ import 'package:todo/ui/widgets/task_card_widget.dart';
 import 'package:todo/ui/widgets/menu_title_widget.dart';
 import 'package:todo/ui/widgets/onprogress_card_widget.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:todo/utils/dialog_utils.dart';
 
 import '../detail/detail_page.dart';
 import '../bloc/todo_bloc.dart';
@@ -32,7 +33,12 @@ class _HomePageState extends State<HomePage> {
           context.read<TodoBloc>().add(GetTodoList());
           return Future.delayed(Duration(seconds: 1));
         },
-        child: BlocBuilder<TodoBloc, TodoState>(
+        child: BlocConsumer<TodoBloc, TodoState>(
+          listener: (context, state) {
+            if (state.status == Status.error) {
+              showErrorDialog(context, state.error!);
+            }
+          },
           builder: (context, state) {
             return switch (state.status) {
               Status.initial ||

@@ -7,9 +7,11 @@ import 'package:toastification/toastification.dart';
 import 'package:todo/ui/bloc/todo_bloc.dart';
 import 'package:todo/ui/widgets/detail_skeleton_widget.dart';
 import 'package:todo/ui/widgets/task_card_widget.dart';
+import 'package:todo/utils/dialog_utils.dart';
 
 import '../../config/app_colors.dart';
 import '../../utils/toast_utils.dart';
+import '../todo_form/todo_form.dart';
 
 class DetailOnprogressTaskPage extends StatefulWidget {
   const DetailOnprogressTaskPage({super.key});
@@ -39,13 +41,18 @@ class _DetailOnprogressTaskPageState extends State<DetailOnprogressTaskPage> {
               );
             }
 
-            if (state.status == Status.updateSuccess) {
+            if (state.status == Status.updateIsCompletedSuccess) {
               showToastification(
                 context,
                 ToastificationType.success,
                 HapticsType.success,
                 "Task is done!",
               );
+            }
+
+            if (state.status == Status.deleteError ||
+                state.status == Status.updateIsCompletedError) {
+              showErrorDialog(context, state.error!);
             }
           },
           builder: (context, state) {
@@ -75,7 +82,7 @@ class _DetailOnprogressTaskPageState extends State<DetailOnprogressTaskPage> {
                                   todo!.copyWith(completed: true);
                               context
                                   .read<TodoBloc>()
-                                  .add(UpdateTodo(updatedTodo));
+                                  .add(UpdateCompleted(updatedTodo));
                             }
                           },
                           background: Container(
@@ -106,6 +113,17 @@ class _DetailOnprogressTaskPageState extends State<DetailOnprogressTaskPage> {
                             isCompleted: false,
                             color: AppColors.pink,
                             todo: todo,
+                            onTap: (todo) {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                enableDrag: true,
+                                builder: (context) => TodoForm(
+                                  todoFormType: TodoFormType.update,
+                                  todo: todo,
+                                ),
+                              );
+                            },
                           ),
                         );
                       },

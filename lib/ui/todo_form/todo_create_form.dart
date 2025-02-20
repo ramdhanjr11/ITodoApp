@@ -13,6 +13,7 @@ import 'package:todo/ui/todo_form/widgets/todo_outlined_button_widget.dart';
 import 'package:todo/utils/toast_utils.dart';
 
 import '../../config/app_colors.dart';
+import '../../utils/dialog_utils.dart';
 import '../bloc/todo_bloc.dart';
 import '../widgets/loading_dialog_widget.dart';
 
@@ -47,6 +48,11 @@ class _TodoCreateFormState extends State<TodoCreateForm> {
             context: context,
             builder: (context) => LoadingDialogWidget(),
           ).then((value) => Navigator.pop(context));
+        }
+
+        if (state.status == Status.createError) {
+          Navigator.pop(context);
+          showErrorDialog(context, state.error!);
         }
       },
       child: Wrap(

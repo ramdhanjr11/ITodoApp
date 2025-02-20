@@ -19,6 +19,11 @@ class UpdateTodo extends TodoEvent {
   const UpdateTodo(this.todo);
 }
 
+class UpdateCompleted extends TodoEvent {
+  final Todo todo;
+  const UpdateCompleted(this.todo);
+}
+
 class DeleteTodo extends TodoEvent {
   final int id;
   const DeleteTodo(this.id);

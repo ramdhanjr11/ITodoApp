@@ -14,6 +14,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   TodoBloc(this._todoUseCase) : super(TodoState.initial()) {
     on<GetTodoList>(_getTodoList);
     on<UpdateTodo>(_updateTodo);
+    on<UpdateCompleted>(_updateCompleted);
     on<CreateTodo>(_createTodo);
     on<DeleteTodo>(_deleteTodo);
   }
@@ -48,10 +49,27 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     result.fold(
       (error) {
-        emit(state.copyWith(status: Status.error, error: error.toString()));
+        emit(state.copyWith(
+            status: Status.updateError, error: error.toString()));
       },
       (data) {
         emit(state.copyWith(status: Status.updateSuccess));
+      },
+    );
+  }
+
+  FutureOr<void> _updateCompleted(UpdateCompleted event, emit) async {
+    emit(state.copyWith(status: Status.loadingUpdate));
+
+    final result = await _todoUseCase.updateTodo(event.todo);
+
+    result.fold(
+      (error) {
+        emit(state.copyWith(
+            status: Status.updateIsCompletedError, error: error.toString()));
+      },
+      (data) {
+        emit(state.copyWith(status: Status.updateIsCompletedSuccess));
       },
     );
   }
@@ -63,7 +81,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     result.fold(
       (error) {
-        emit(state.copyWith(status: Status.error, error: error.toString()));
+        emit(state.copyWith(
+            status: Status.createError, error: error.toString()));
       },
       (data) {
         emit(state.copyWith(status: Status.createSucces));
@@ -78,7 +97,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     result.fold(
       (error) {
-        emit(state.copyWith(status: Status.error, error: error.toString()));
+        emit(state.copyWith(
+            status: Status.deleteError, error: error.toString()));
       },
       (data) {
         emit(state.copyWith(status: Status.deleteSuccess));

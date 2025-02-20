@@ -5,12 +5,20 @@ enum Status {
   loading,
   success,
   error,
+
   loadingCreate,
   loadingUpdate,
   loadingDelete,
+
   createSucces,
   updateSuccess,
-  deleteSuccess
+  updateIsCompletedSuccess,
+  deleteSuccess,
+
+  createError,
+  updateError,
+  updateIsCompletedError,
+  deleteError,
 }
 
 class TodoState extends Equatable {

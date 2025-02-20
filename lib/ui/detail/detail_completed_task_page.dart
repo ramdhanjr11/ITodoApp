@@ -6,6 +6,7 @@ import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:toastification/toastification.dart';
 import 'package:todo/config/app_colors.dart';
 import 'package:todo/ui/widgets/detail_skeleton_widget.dart';
+import 'package:todo/utils/dialog_utils.dart';
 import 'package:todo/utils/toast_utils.dart';
 
 import '../bloc/todo_bloc.dart';
@@ -37,6 +38,10 @@ class _DetailCompletedTaskPageState extends State<DetailCompletedTaskPage> {
                 HapticsType.success,
                 "Delete success!",
               );
+            }
+
+            if (state.status == Status.deleteError) {
+              showErrorDialog(context, state.error!);
             }
           },
           builder: (context, state) {
