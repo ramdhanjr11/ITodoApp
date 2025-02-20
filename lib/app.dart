@@ -2,8 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/config/app_colors.dart';
+import 'package:todo/config/app_di.dart';
 import 'package:todo/config/app_route.dart';
 import 'package:todo/ui/detail/detail_page.dart';
+import 'package:todo/ui/home/bloc/home_bloc.dart';
 import 'package:todo/ui/splash/splash_page.dart';
 
 import 'config/flavors.dart';
@@ -18,22 +20,27 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => SplashCubit()..countDown()),
+        BlocProvider(create: (_) => di<HomeBloc>()..add(GetTodoList())),
       ],
       child: MaterialApp(
         title: F.title,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: AppColors.background,
-          primaryColor: Colors.blue,
-          appBarTheme: AppBarTheme(backgroundColor: AppColors.background),
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        ),
+        theme: _themeData(),
         onGenerateRoute: _onGenerateRoute,
         home: _flavorBanner(
           child: SplashPage(),
           show: kDebugMode,
         ),
       ),
+    );
+  }
+
+  ThemeData _themeData() {
+    return ThemeData(
+      primarySwatch: Colors.blue,
+      scaffoldBackgroundColor: AppColors.background,
+      primaryColor: Colors.blue,
+      appBarTheme: AppBarTheme(backgroundColor: AppColors.background),
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
     );
   }
 
